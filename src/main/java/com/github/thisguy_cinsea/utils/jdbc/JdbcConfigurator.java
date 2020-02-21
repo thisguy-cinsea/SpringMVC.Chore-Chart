@@ -22,8 +22,12 @@ public class JdbcConfigurator {
         dbc.drop();
         dbc.create();
         dbc.use();
-        executeSqlFile("table1.create-table.sql");
-        executeSqlFile("table1.populate-table.sql");
+        executeSqlFile("user.create-table.sql");
+        executeSqlFile("user.populate-table.sql");
+        executeSqlFile("chore.create-table.sql");
+        executeSqlFile("chore.populate-table.sql");
+        executeSqlFile("userChore.create-table.sql");
+        executeSqlFile("userChore.populate-table.sql");
 
     }
 
