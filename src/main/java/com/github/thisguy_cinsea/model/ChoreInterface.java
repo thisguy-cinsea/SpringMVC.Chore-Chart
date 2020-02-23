@@ -4,6 +4,6 @@ public interface ChoreInterface {
     String getChoreId();
     String getChoreName();
 
-//    void setChoreId(String choreId);
+    void setChoreId(String choreId);
     void setChoreName(String choreName);
 }

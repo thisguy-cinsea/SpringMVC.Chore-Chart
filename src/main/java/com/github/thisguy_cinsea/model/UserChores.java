@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class UserChores implements UserChoresInterface {
-    private final String userChoresId;
+    private String userChoresId;
     private String userId;
     private String choreId;
     private Date creationDate;
@@ -80,6 +80,11 @@ public class UserChores implements UserChoresInterface {
     @Override
     public String getNote() {
         return note;
+    }
+
+    @Override
+    public void setUserChoresId(String userChoresId) {
+        this.userChoresId = userChoresId;
     }
 
     @Override

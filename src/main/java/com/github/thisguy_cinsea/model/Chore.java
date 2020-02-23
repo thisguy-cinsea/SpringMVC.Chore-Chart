@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Chore implements ChoreInterface{
 
-    private final String choreId;
+    private String choreId;
     private String choreName;
 
     public Chore(String choreId, String choreName) {
@@ -26,6 +26,11 @@ public class Chore implements ChoreInterface{
 
     public String getChoreName() {
         return choreName;
+    }
+
+    @Override
+    public void setChoreId(String choreId) {
+        this.choreId = choreId;
     }
 
     public void setChoreName(String choreName) {

@@ -11,7 +11,7 @@ public interface UserChoresInterface {
     Date getCompletionDate();
     String getNote();
 
-//    void setUserChoresId(String userChoresId);
+    void setUserChoresId(String userChoresId);
     void setUserId(String userId);
     void setChoreId(String choreId);
     void setCreationDate(Date creationDate);

@@ -2,8 +2,8 @@ package com.github.thisguy_cinsea.model;
 
 import java.util.UUID;
 
-public class User implements UserInterface{
-    private final String userId;
+public class User implements UserInterface, PersonInterface{
+    private String userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,6 +15,10 @@ public class User implements UserInterface{
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String firstName) {
+        this(null, firstName, null, null, null);
     }
 
     @Override
@@ -54,6 +58,11 @@ public class User implements UserInterface{
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void setPassword(String password) {
