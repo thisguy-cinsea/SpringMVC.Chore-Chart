@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.github.thisguy_cinsea.config.SpringSecurityConfig",
+      "sourceMethod": "ds()"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

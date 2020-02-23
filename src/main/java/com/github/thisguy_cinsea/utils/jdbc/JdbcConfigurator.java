@@ -19,15 +19,17 @@ public class JdbcConfigurator {
     private static final DBConnection dbc = DBConnection.CHORE_CHART_DB;
 
     public static void initialize() {
-//        dbc.drop();
-//        dbc.create();
-//        dbc.use();
-//        executeSqlFile("user.create-table.sql");
-//        executeSqlFile("user.populate-table.sql");
-//        executeSqlFile("chore.create-table.sql");
-//        executeSqlFile("chore.populate-table.sql");
-//        executeSqlFile("userChore.create-table.sql");
-//        executeSqlFile("userChore.populate-table.sql");
+        dbc.drop();
+        dbc.create();
+        dbc.use();
+        executeSqlFile("user.create-table.sql");
+        executeSqlFile("user.populate-table.sql");
+        executeSqlFile("chore.create-table.sql");
+        executeSqlFile("chore.populate-table.sql");
+        executeSqlFile("userChore.create-table.sql");
+        executeSqlFile("userChore.populate-table.sql");
+        executeSqlFile("registration.create-table.sql");
+        executeSqlFile("registration.populate-table.sql");
 
     }
 
