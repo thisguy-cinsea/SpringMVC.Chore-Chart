@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public enum DBConnection implements DBConnectionInterface {
-    MANAGEMENT_SYSTEM,
     CHORE_CHART_DB,
     UAT;
 

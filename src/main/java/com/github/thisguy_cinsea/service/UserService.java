@@ -1,15 +1,21 @@
 package com.github.thisguy_cinsea.service;
 
+import com.github.thisguy_cinsea.config.SpringSecurityConfig;
 import com.github.thisguy_cinsea.dao.UserDao;
 import com.github.thisguy_cinsea.model.PersonInterface;
 import com.github.thisguy_cinsea.model.User;
 import com.github.thisguy_cinsea.model.UserBuilder;
 import com.github.thisguy_cinsea.model.UserInterface;
 import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserService implements UserDao {
@@ -33,10 +39,31 @@ public class UserService implements UserDao {
                         .setFirstName(resultSet.getString("firstName"))
                         .setLastName(resultSet.getString("lastName"))
                         .setEmail(resultSet.getString("email"))
-                        .setPassword(resultSet.getString("password"))
+                        .setPassword(hashPassword(resultSet.getString("password")))
                         .build();
                 user.setUserId(resultSet.getString("userId"));
                 list.put(resultSet.getString("userId"), user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<UserInterface> listAllUsers(){
+        String sqlQuery = "SELECT * from user_tbl;";
+        ResultSet resultSet = dbc.executeQuery(sqlQuery);
+        List<UserInterface> list = new ArrayList<>();
+        try{
+            while (resultSet.next()){
+                UserInterface user = new UserBuilder()
+                        .setFirstName(resultSet.getString("firstName"))
+                        .setLastName(resultSet.getString("lastName"))
+                        .setEmail(resultSet.getString("email"))
+                        .setPassword(hashPassword(resultSet.getString("password")))
+                        .build();
+                user.setUserId(resultSet.getString("userId"));
+                list.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,6 +81,10 @@ public class UserService implements UserDao {
                 "'" + userToCreate.getFirstName() +"');";
         dbc.executeStatement(sqlStatement);
         return userToCreate;
+    }
+
+    private String hashPassword(String plainTextPassword){
+        return new BCryptPasswordEncoder().encode(plainTextPassword);
     }
 
     public UserInterface getUserByEmail(String userEmail){
@@ -78,14 +109,16 @@ public class UserService implements UserDao {
 
     @Override
     public UserInterface registerUser(User user) {
+        System.out.println("user: " + user);
         if (getUserByEmail(user.getEmail()) == null) {
             System.out.println("not null " );
             UserInterface userToRegister = new UserBuilder()
                     .setFirstName(user.getFirstName())
                     .setLastName(user.getLastName())
                     .setEmail(user.getEmail())
-                    .setPassword(user.getPassword())
+                    .setPassword(hashPassword(user.getPassword()))
                     .build();
+            System.out.println("userToRegister: " + userToRegister);
             String sqlStatement = "INSERT INTO user_tbl ( userId, firstName, lastName, email, password) VALUES (" +
                     "'" + userToRegister.getUserId() +"'," +
                     "'" + userToRegister.getFirstName() +"'," +
