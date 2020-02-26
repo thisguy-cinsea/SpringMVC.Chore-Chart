@@ -1,0 +1,5 @@
+INSERT INTO responsibility_tbl ( responsibilityId, responsibilityName, groupId) VALUES ('2d538fee-06e7-4f39-a9d8-195cb641813f', 'Kitchen', '8dec2487-de17-441b-be17-be8f53cb5a3c');
+INSERT INTO responsibility_tbl ( responsibilityId, responsibilityName, groupId) VALUES ('c2dbc9fb-f81c-44d9-b75f-79fd9fb0f429', 'Hallway', '8dec2487-de17-441b-be17-be8f53cb5a3c');
+INSERT INTO responsibility_tbl ( responsibilityId, responsibilityName, groupId) VALUES ('3c8319b1-4005-4bf9-b43b-fc04ec7be41c', 'Bathroom', '8dec2487-de17-441b-be17-be8f53cb5a3c');
+INSERT INTO responsibility_tbl ( responsibilityId, responsibilityName, groupId) VALUES ('f9d02fec-f174-4bf2-9f61-fc4de47de6fc', 'Living Room', '2935a240-8185-4f8d-bdca-2433c05bd0e0');
+INSERT INTO responsibility_tbl ( responsibilityId, responsibilityName, groupId) VALUES ('e3a736a3-9f79-4a0c-b797-0f9296bf42d3', 'Bedroom', '2935a240-8185-4f8d-bdca-2433c05bd0e0');

@@ -2,28 +2,30 @@ package com.github.thisguy_cinsea.model;
 
 import java.util.UUID;
 
-public class User implements UserInterface, PersonInterface{
+public class User implements UserInterface{
     private String userId;
     private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    private String groupId;
+    private Boolean isDeleted;
 
-    public User(String userId, String firstName, String lastName, String email, String password) {
+    public User(String userId, String firstName, String groupId, Boolean isDeleted) {
         this.userId = UUID.randomUUID().toString();
         this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+        this.groupId = groupId;
+        this.isDeleted = isDeleted;
     }
 
-    public User(String firstName) {
-        this(null, firstName, null, null, null);
+    public User() {
     }
 
     @Override
     public String getUserId() {
         return userId;
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -37,36 +39,21 @@ public class User implements UserInterface, PersonInterface{
     }
 
     @Override
-    public String getLastName() {
-        return lastName;
+    public String getGroupId() {
+        return groupId;
     }
 
     @Override
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
-    @Override
-    public String getEmail() {
-        return email;
+    public Boolean getDeleted() {
+        return isDeleted;
     }
 
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
@@ -74,9 +61,8 @@ public class User implements UserInterface, PersonInterface{
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

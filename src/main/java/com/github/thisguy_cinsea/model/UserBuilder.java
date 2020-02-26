@@ -3,9 +3,8 @@ package com.github.thisguy_cinsea.model;
 public class UserBuilder {
     private String userId;
     private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    private String groupId;
+    private Boolean isDeleted;
 
     public UserBuilder setUserId(String userId) {
         this.userId = userId;
@@ -17,22 +16,17 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder setLastName(String lastName) {
-        this.lastName = lastName;
+    public UserBuilder setGroupId(String groupId) {
+        this.groupId = groupId;
         return this;
     }
 
-    public UserBuilder setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public UserBuilder setPassword(String password) {
-        this.password = password;
+    public UserBuilder setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
         return this;
     }
 
     public User build() {
-        return new User(userId, firstName, lastName, email, password);
+        return new User(userId, firstName, groupId, isDeleted);
     }
 }

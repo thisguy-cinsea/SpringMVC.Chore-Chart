@@ -1,0 +1,2 @@
+INSERT INTO group_tbl ( groupId, groupName) VALUES ('8dec2487-de17-441b-be17-be8f53cb5a3c', 'Group One');
+INSERT INTO group_tbl ( groupId, groupName) VALUES ('2935a240-8185-4f8d-bdca-2433c05bd0e0', 'Group Two');

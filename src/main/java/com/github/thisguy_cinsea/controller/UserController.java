@@ -3,9 +3,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.thisguy_cinsea.model.PersonInterface;
-import com.github.thisguy_cinsea.model.User;
 import com.github.thisguy_cinsea.model.UserInterface;
+import com.github.thisguy_cinsea.model.User;
 import com.github.thisguy_cinsea.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public PersonInterface createUser(@Valid @RequestBody User user){
+    public UserInterface createUser(@Valid @RequestBody User user){
         System.out.println("controller.createUser");
         System.out.println(user);
         return service.createUser(user);

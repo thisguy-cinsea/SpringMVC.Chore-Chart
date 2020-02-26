@@ -1,3 +1,0 @@
--- INSERT INTO table1 (column1, column2, column3) VALUES (1, 'Test String', 'Test');
-INSERT INTO register_user_tbl ( email, password, role) VALUES ('w.ancona@email.com', '$2a$10$5e3dB36HeRcozRgp8xQfw.tfD3Qsut8xu/NT9g/DSpVKg9Kzuitrq', 'USER');
-INSERT INTO register_user_tbl ( email, password, role) VALUES ('b.thompson@email.com', '$2a$10$5e3dB36HeRcozRgp8xQfw.tfD3Qsut8xu/NT9g/DSpVKg9Kzuitrq', 'ADMIN');

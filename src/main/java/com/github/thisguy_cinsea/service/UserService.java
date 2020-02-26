@@ -1,15 +1,10 @@
 package com.github.thisguy_cinsea.service;
 
-import com.github.thisguy_cinsea.config.SpringSecurityConfig;
 import com.github.thisguy_cinsea.dao.UserDao;
-import com.github.thisguy_cinsea.model.PersonInterface;
-import com.github.thisguy_cinsea.model.User;
-import com.github.thisguy_cinsea.model.UserBuilder;
 import com.github.thisguy_cinsea.model.UserInterface;
+import com.github.thisguy_cinsea.model.User;
 import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,8 +67,8 @@ public class UserService implements UserDao {
     }
 
     @Override
-    public PersonInterface createUser(User user) {
-        PersonInterface userToCreate = new UserBuilder()
+    public UserInterface createUser(User user) {
+        UserInterface userToCreate = new UserBuilder()
                 .setFirstName(user.getFirstName())
                 .build();
         String sqlStatement = "INSERT INTO user_tbl ( userId, firstName) VALUES (" +
@@ -109,25 +104,25 @@ public class UserService implements UserDao {
 
     @Override
     public UserInterface registerUser(User user) {
-        System.out.println("user: " + user);
-        if (getUserByEmail(user.getEmail()) == null) {
-            System.out.println("not null " );
-            UserInterface userToRegister = new UserBuilder()
-                    .setFirstName(user.getFirstName())
-                    .setLastName(user.getLastName())
-                    .setEmail(user.getEmail())
-                    .setPassword(hashPassword(user.getPassword()))
-                    .build();
-            System.out.println("userToRegister: " + userToRegister);
-            String sqlStatement = "INSERT INTO user_tbl ( userId, firstName, lastName, email, password) VALUES (" +
-                    "'" + userToRegister.getUserId() +"'," +
-                    "'" + userToRegister.getFirstName() +"'," +
-                    "'" + userToRegister.getLastName() +"'," +
-                    "'" + userToRegister.getEmail() +"'," +
-                    "'" + userToRegister.getPassword() +"');";
-            dbc.executeStatement(sqlStatement);
-            return userToRegister;
-        }
+//        System.out.println("user: " + user);
+//        if (getUserByEmail(user.getEmail()) == null) {
+//            System.out.println("not null " );
+//            UserInterface userToRegister = new UserBuilder()
+//                    .setFirstName(user.getFirstName())
+//                    .setLastName(user.getLastName())
+//                    .setEmail(user.getEmail())
+//                    .setPassword(hashPassword(user.getPassword()))
+//                    .build();
+//            System.out.println("userToRegister: " + userToRegister);
+//            String sqlStatement = "INSERT INTO user_tbl ( userId, firstName, lastName, email, password) VALUES (" +
+//                    "'" + userToRegister.getUserId() +"'," +
+//                    "'" + userToRegister.getFirstName() +"'," +
+//                    "'" + userToRegister.getLastName() +"'," +
+//                    "'" + userToRegister.getEmail() +"'," +
+//                    "'" + userToRegister.getPassword() +"');";
+//            dbc.executeStatement(sqlStatement);
+//            return userToRegister;
+//        }
         System.out.println("User already in system");
         return null;
     }
