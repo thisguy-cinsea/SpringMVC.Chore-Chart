@@ -5,18 +5,17 @@ import com.github.thisguy_cinsea.model.NoteInterface;
 import com.github.thisguy_cinsea.utils.IOConsole;
 import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public interface NoteDao {
-    DBConnection getDatabaseConnection();
+    DBConnection getDBConnection();
 
     default Map<String, NoteInterface> getNoteByStatement(String sqlQuery) {
         sqlQuery = sqlQuery + " AND `is_deleted` <> 1 OR `is_deleted` IS NULL;";
-        ResultSet results = getDatabaseConnection().executeQuery(sqlQuery);
+        ResultSet results = getDBConnection().executeQuery(sqlQuery);
         Map<String, NoteInterface> noteMap = new HashMap<>();
         try{
             while (results.next()){
@@ -53,8 +52,8 @@ public interface NoteDao {
         NoteInterface noteToCreate = new Note(note.getMessage());
         String sqlStatement = "INSERT INTO `note_tbl` ( `noteId`, `message`) VALUES ('"+
                 noteToCreate.getNoteId() +"', '"+ noteToCreate.getMessage() +"');";
-        getDatabaseConnection().executeStatement(sqlStatement);
-        return note;
+        getDBConnection().executeStatement(sqlStatement);
+        return noteToCreate;
     }
 
     
@@ -64,7 +63,7 @@ public interface NoteDao {
         noteToUpdate.setMessage(note.getMessage());
         String sqlStatement = "UPDATE `note_tbl` SET `message` = '"+ noteToUpdate.getMessage()
                 +"' WHERE `noteId` = '"+ noteToUpdate.getNoteId() +"';";
-        getDatabaseConnection().executeStatement(sqlStatement);
+        getDBConnection().executeStatement(sqlStatement);
         return noteToUpdate;
     }
 
@@ -75,7 +74,7 @@ public interface NoteDao {
         noteToUpdate.setDeleted(true);
         String sqlStatement = "UPDATE `note_tbl` SET `is_deleted` = 1 WHERE `noteId` = '"
                 + noteToUpdate.getNoteId() +"';";
-        getDatabaseConnection().executeStatement(sqlStatement);
+        getDBConnection().executeStatement(sqlStatement);
         return noteToUpdate;
     }
 }

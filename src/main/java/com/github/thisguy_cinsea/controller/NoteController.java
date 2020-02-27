@@ -39,33 +39,31 @@ public class NoteController {
     @PostMapping("/")
     public ResponseEntity<NoteInterface> createNote(
             @Valid @RequestBody Note note){
-        NoteInterface noteMap = service.createNote(note);
-        if (noteMap == null){
+        NoteInterface serviceNote = service.createNote(note);
+        if (serviceNote == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(noteMap, HttpStatus.OK);
+        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
     }
 
     @PutMapping("/{noteId}")
     public ResponseEntity<NoteInterface> updateNote(
             @PathVariable (value = "noteId") String noteId,
             @Valid @RequestBody Note note){
-        NoteInterface noteMap = service.updateNote(noteId, note);
-        if (noteMap == null){
+        NoteInterface serviceNote = service.updateNote(noteId, note);
+        if (serviceNote == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(noteMap, HttpStatus.OK);
+        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
     }
 
     @DeleteMapping("/{noteId}")
     public ResponseEntity<NoteInterface> deleteNote(
             @PathVariable (value = "noteId") String noteId){
-        NoteInterface noteMap = service.deleteNote(noteId);
-        if (noteMap == null){
+        NoteInterface serviceNote = service.deleteNote(noteId);
+        if (serviceNote == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(noteMap, HttpStatus.OK);
+        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
     }
-
-
 }

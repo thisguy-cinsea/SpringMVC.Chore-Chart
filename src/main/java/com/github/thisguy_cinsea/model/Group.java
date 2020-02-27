@@ -13,6 +13,14 @@ public class Group implements GroupInterface {
         this.isDeleted = isDeleted;
     }
 
+    public Group(String groupId, String groupName, int isDeleted) {
+        this(groupId, groupName, isDeleted == 1);
+    }
+
+    public Group(String groupName) {
+        this(null, groupName, null);
+    }
+
     public Group() {
     }
 
