@@ -2,8 +2,6 @@ package com.github.thisguy_cinsea.dao;
 
 import com.github.thisguy_cinsea.model.Group;
 import com.github.thisguy_cinsea.model.GroupInterface;
-import com.github.thisguy_cinsea.model.Note;
-import com.github.thisguy_cinsea.model.NoteInterface;
 import com.github.thisguy_cinsea.utils.IOConsole;
 import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
 
@@ -16,7 +14,7 @@ public interface GroupDao {
     DBConnection getDBConnection();
 
     default Map<String, GroupInterface> getGroupByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND `is_deleted` <> 1 OR `is_deleted` IS NULL;";
+        sqlQuery = sqlQuery + " (AND `is_deleted` <> 1 OR `is_deleted` IS NULL);";
         ResultSet results = getDBConnection().executeQuery(sqlQuery);
         Map<String, GroupInterface> groupMap = new HashMap<>();
         try{
@@ -68,12 +66,12 @@ public interface GroupDao {
     }
 
     default GroupInterface deleteGroup(String groupId) {
-        GroupInterface groupToUpdate = getGroupById(groupId);
-        groupToUpdate.setGroupId(groupId);
-        groupToUpdate.setDeleted(true);
+        GroupInterface groupToDelete = getGroupById(groupId);
+        groupToDelete.setGroupId(groupId);
+        groupToDelete.setDeleted(true);
         String sqlStatement = "UPDATE `group_tbl` SET `is_deleted` = 1 WHERE `groupId` = '"
-                + groupToUpdate.getGroupId() +"';";
+                + groupToDelete.getGroupId() +"';";
         getDBConnection().executeStatement(sqlStatement);
-        return groupToUpdate;
+        return groupToDelete;
     }
 }

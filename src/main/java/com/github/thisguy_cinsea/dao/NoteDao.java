@@ -14,7 +14,7 @@ public interface NoteDao {
     DBConnection getDBConnection();
 
     default Map<String, NoteInterface> getNoteByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND `is_deleted` <> 1 OR `is_deleted` IS NULL;";
+        sqlQuery = sqlQuery + " AND (`is_deleted` <> 1 OR `is_deleted` IS NULL);";
         ResultSet results = getDBConnection().executeQuery(sqlQuery);
         Map<String, NoteInterface> noteMap = new HashMap<>();
         try{
@@ -69,12 +69,12 @@ public interface NoteDao {
 
     
     default NoteInterface deleteNote(String noteId) {
-        NoteInterface noteToUpdate = getNoteById(noteId);
-        noteToUpdate.setNoteId(noteId);
-        noteToUpdate.setDeleted(true);
+        NoteInterface noteToDelete = getNoteById(noteId);
+        noteToDelete.setNoteId(noteId);
+        noteToDelete.setDeleted(true);
         String sqlStatement = "UPDATE `note_tbl` SET `is_deleted` = 1 WHERE `noteId` = '"
-                + noteToUpdate.getNoteId() +"';";
+                + noteToDelete.getNoteId() +"';";
         getDBConnection().executeStatement(sqlStatement);
-        return noteToUpdate;
+        return noteToDelete;
     }
 }

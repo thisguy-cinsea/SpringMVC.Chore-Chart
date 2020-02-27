@@ -26,6 +26,11 @@ public class ResponsibilityBuilder {
         return this;
     }
 
+    public ResponsibilityBuilder setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted == 1;
+        return this;
+    }
+
     public Responsibility build() {
         return new Responsibility(responsibilityId, responsibilityName, groupId, isDeleted);
     }

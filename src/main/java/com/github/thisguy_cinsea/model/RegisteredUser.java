@@ -1,12 +1,12 @@
 package com.github.thisguy_cinsea.model;
 
 public class RegisteredUser extends User implements RegisteredUserInterface {
-//    private String userId;
+    //    private String userId;
 //    private String firstName;
     private String lastName;
     private String email;
     private String password;
-//    private String groupId;
+    //    private String groupId;
     private String role;
     private Boolean isRegisteredDeleted;
 
@@ -20,6 +20,20 @@ public class RegisteredUser extends User implements RegisteredUserInterface {
         this.role = role;
         this.isRegisteredDeleted = isRegisteredDeleted;
     }
+
+//    public RegisteredUser(String userId, String firstName, String groupId,
+//                          Boolean isDeleted, String lastName, String email,
+//                          String password, String role, int isRegisteredDeleted) {
+//        this(userId, firstName, groupId, isDeleted, lastName, email,
+//                password, role, isRegisteredDeleted == 1);
+//    }
+//
+//    public RegisteredUser(String userId, String firstName, String groupId,
+//                          int isDeleted, String lastName, String email,
+//                          String password, String role, int isRegisteredDeleted){
+//        this(userId, firstName, groupId, isDeleted == 1, lastName, email,
+//                password, role, isRegisteredDeleted == 1);
+//    }
 
     @Override
     public String getLastName() {

@@ -15,6 +15,10 @@ public class User implements UserInterface{
         this.isDeleted = isDeleted;
     }
 
+    public User(String userId, String firstName, String groupId, int isDeleted) {
+        this(userId, firstName, groupId, isDeleted == 1);
+    }
+
     public User() {
     }
 

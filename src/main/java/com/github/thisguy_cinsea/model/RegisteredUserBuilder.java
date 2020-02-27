@@ -31,6 +31,11 @@ public class RegisteredUserBuilder {
         return this;
     }
 
+    public RegisteredUserBuilder setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted == 1;
+        return this;
+    }
+
     public RegisteredUserBuilder setLastName(String lastName) {
         this.lastName = lastName;
         return this;
@@ -53,6 +58,11 @@ public class RegisteredUserBuilder {
 
     public RegisteredUserBuilder setIsRegisteredDeleted(Boolean isRegisteredDeleted) {
         this.isRegisteredDeleted = isRegisteredDeleted;
+        return this;
+    }
+
+    public RegisteredUserBuilder setIsRegisteredDeleted(int isRegisteredDeleted) {
+        this.isRegisteredDeleted = isRegisteredDeleted == 1;
         return this;
     }
 

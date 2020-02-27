@@ -16,6 +16,10 @@ public class Responsibility implements ResponsibilityInterface {
         this.isDeleted = isDeleted;
     }
 
+    public Responsibility(String responsibilityId, String responsibilityName, String groupId, int isDeleted) {
+        this(responsibilityId, responsibilityName, groupId, isDeleted == 1);
+    }
+
     public Responsibility() {
     }
 

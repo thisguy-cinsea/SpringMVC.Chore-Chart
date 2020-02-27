@@ -45,7 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
     {
-        System.out.println("springSec.configureGlobal");
+//        System.out.println("springSec.configureGlobal");
         auth.jdbcAuthentication().dataSource(dataSource)
                 .authoritiesByUsernameQuery("SELECT `email`, `role` from `reg_user_tbl` where `email`=?")
                 .usersByUsernameQuery("SELECT `email`, `password`, 1 as enabled from `reg_user_tbl` where `email`=?");
