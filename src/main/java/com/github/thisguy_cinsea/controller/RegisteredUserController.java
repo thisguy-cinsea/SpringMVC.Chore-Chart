@@ -1,7 +1,7 @@
 package com.github.thisguy_cinsea.controller;
 
+import com.github.thisguy_cinsea.model.RegisteredUser;
 import com.github.thisguy_cinsea.model.RegisteredUserInterface;
-import com.github.thisguy_cinsea.model.Responsibility;
 import com.github.thisguy_cinsea.service.RegisteredUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +27,9 @@ public class RegisteredUserController {
     }
 
     @GetMapping("/{registeredUserId}")
-    public ResponseEntity<RegisteredUserInterface> getResponsibilityById(
+    public ResponseEntity<RegisteredUserInterface> getRegisteredUserById(
             @PathVariable(value = "registeredUserId") String registeredUserId){
-        RegisteredUserInterface registeredUser = service.getResponsibilityById(registeredUserId);
+        RegisteredUserInterface registeredUser = service.getRegisteredUserById(registeredUserId);
         if (registeredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -37,10 +37,9 @@ public class RegisteredUserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<RegisteredUserInterface> createResponsibility(
-            @Valid @RequestBody Responsibility registeredUser){
-        System.out.println(registeredUser);
-        RegisteredUserInterface serviceRegisteredUser = service.createResponsibility(registeredUser);
+    public ResponseEntity<RegisteredUserInterface> createRegisteredUser(
+            @Valid @RequestBody RegisteredUser registeredUser){
+        RegisteredUserInterface serviceRegisteredUser = service.createRegisteredUser(registeredUser);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -48,10 +47,10 @@ public class RegisteredUserController {
     }
 
     @PutMapping("/{registeredUserId}")
-    public ResponseEntity<RegisteredUserInterface> updateResponsibility(
+    public ResponseEntity<RegisteredUserInterface> updateRegisteredUser(
             @PathVariable (value = "registeredUserId") String registeredUserId,
-            @Valid @RequestBody Responsibility registeredUser){
-        RegisteredUserInterface serviceRegisteredUser = service.updateResponsibility(registeredUserId, registeredUser);
+            @Valid @RequestBody RegisteredUser registeredUser){
+        RegisteredUserInterface serviceRegisteredUser = service.updateRegisteredUser(registeredUserId, registeredUser);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -59,9 +58,9 @@ public class RegisteredUserController {
     }
 
     @DeleteMapping("/{registeredUserId}")
-    public ResponseEntity<RegisteredUserInterface> deleteResponsibility(
+    public ResponseEntity<RegisteredUserInterface> deleteRegisteredUser(
             @PathVariable (value = "registeredUserId") String registeredUserId){
-        RegisteredUserInterface serviceRegisteredUser = service.deleteResponsibility(registeredUserId);
+        RegisteredUserInterface serviceRegisteredUser = service.deleteRegisteredUser(registeredUserId);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

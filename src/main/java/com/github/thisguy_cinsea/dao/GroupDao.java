@@ -14,7 +14,8 @@ public interface GroupDao {
     DBConnection getDBConnection();
 
     default Map<String, GroupInterface> getGroupByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " (AND `is_deleted` <> 1 OR `is_deleted` IS NULL);";
+        sqlQuery = sqlQuery + " AND (`is_deleted` <> 1 OR `is_deleted` IS NULL);";
+        System.out.println(sqlQuery);
         ResultSet results = getDBConnection().executeQuery(sqlQuery);
         Map<String, GroupInterface> groupMap = new HashMap<>();
         try{
@@ -41,7 +42,7 @@ public interface GroupDao {
 
     default GroupInterface getGroupById(String groupId) {
         Map<String, GroupInterface> groupMap = getGroupByStatement("SELECT * FROM `group_tbl`" +
-                "WHERE `groupId` = '" + groupId + "'");
+                "WHERE `groupId` = '" + groupId + "' ");
         if (groupMap.isEmpty())
             return null;
         return groupMap.values().iterator().next();

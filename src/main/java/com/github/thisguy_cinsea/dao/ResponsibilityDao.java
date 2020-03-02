@@ -13,7 +13,7 @@ public interface ResponsibilityDao {
     DBConnection getDBConnection();
 
     default Map<String, ResponsibilityInterface> getResponsibilityByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND( `is_deleted` <> 1 OR `is_deleted` IS NULL);";
+        sqlQuery = sqlQuery + " AND (`is_deleted` <> 1 OR `is_deleted` IS NULL);";
         ResultSet results = getDBConnection().executeQuery(sqlQuery);
         Map<String, ResponsibilityInterface> responsibilityMap = new HashMap<>();
         try{

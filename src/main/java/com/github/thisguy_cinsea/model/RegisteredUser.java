@@ -21,19 +21,7 @@ public class RegisteredUser extends User implements RegisteredUserInterface {
         this.isRegisteredDeleted = isRegisteredDeleted;
     }
 
-//    public RegisteredUser(String userId, String firstName, String groupId,
-//                          Boolean isDeleted, String lastName, String email,
-//                          String password, String role, int isRegisteredDeleted) {
-//        this(userId, firstName, groupId, isDeleted, lastName, email,
-//                password, role, isRegisteredDeleted == 1);
-//    }
-//
-//    public RegisteredUser(String userId, String firstName, String groupId,
-//                          int isDeleted, String lastName, String email,
-//                          String password, String role, int isRegisteredDeleted){
-//        this(userId, firstName, groupId, isDeleted == 1, lastName, email,
-//                password, role, isRegisteredDeleted == 1);
-//    }
+
 
     @Override
     public String getLastName() {
