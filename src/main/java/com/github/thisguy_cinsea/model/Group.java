@@ -3,18 +3,18 @@ package com.github.thisguy_cinsea.model;
 import java.util.UUID;
 
 public class Group implements GroupInterface {
-    private String groupId;
+    private String id;
     private String groupName;
     private Boolean isDeleted;
 
-    public Group(String groupId, String groupName, Boolean isDeleted) {
-        this.groupId = UUID.randomUUID().toString();
+    public Group(String id, String groupName, Boolean isDeleted) {
+        this.id = UUID.randomUUID().toString();
         this.groupName = groupName;
         this.isDeleted = isDeleted;
     }
 
-    public Group(String groupId, String groupName, int isDeleted) {
-        this(groupId, groupName, isDeleted == 1);
+    public Group(String id, String groupName, int isDeleted) {
+        this(id, groupName, isDeleted == 1);
     }
 
     public Group(String groupName) {
@@ -25,13 +25,13 @@ public class Group implements GroupInterface {
     }
 
     @Override
-    public String getGroupId() {
-        return groupId;
+    public String getId() {
+        return id;
     }
 
     @Override
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Group implements GroupInterface {
     @Override
     public String toString() {
         return "Group{" +
-                "groupId='" + groupId + '\'' +
+                "groupId='" + id + '\'' +
                 ", groupName='" + groupName + '\'' +
                 ", isDeleted=" + isDeleted +
                 '}';

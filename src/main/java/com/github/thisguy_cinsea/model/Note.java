@@ -3,18 +3,18 @@ package com.github.thisguy_cinsea.model;
 import java.util.UUID;
 
 public class Note implements NoteInterface {
-    private String noteId;
+    private String id;
     private String message;
     private Boolean isDeleted;
 
-    public Note(String noteId, String message, Boolean isDeleted) {
-        this.noteId = UUID.randomUUID().toString();
+    public Note(String id, String message, Boolean isDeleted) {
+        this.id = UUID.randomUUID().toString();
         this.message = message;
         this.isDeleted = isDeleted;
     }
 
-    public Note(String noteId, String message, int isDeleted) {
-        this(noteId, message, isDeleted == 1);
+    public Note(String id, String message, int isDeleted) {
+        this(id, message, isDeleted == 1);
     }
 
     public Note(String message){
@@ -25,13 +25,13 @@ public class Note implements NoteInterface {
     }
 
     @Override
-    public String getNoteId() {
-        return noteId;
+    public String getId() {
+        return id;
     }
 
     @Override
-    public void setNoteId(String noteId) {
-        this.noteId = noteId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Note implements NoteInterface {
     @Override
     public String toString() {
         return "Note{" +
-                "noteId='" + noteId + '\'' +
+                "noteId='" + id + '\'' +
                 ", message='" + message + '\'' +
                 ", isDeleted=" + isDeleted +
                 '}';
