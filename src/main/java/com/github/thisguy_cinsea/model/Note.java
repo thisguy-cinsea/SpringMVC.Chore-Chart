@@ -13,6 +13,14 @@ public class Note implements NoteInterface {
         this.isDeleted = isDeleted;
     }
 
+    public Note(String noteId, String message, int isDeleted) {
+        this(noteId, message, isDeleted == 1);
+    }
+
+    public Note(String message){
+        this(null, message, null);
+    }
+
     public Note() {
     }
 
