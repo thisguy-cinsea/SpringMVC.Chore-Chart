@@ -1,15 +1,15 @@
 package com.github.thisguy_cinsea.service;
 
 import com.github.thisguy_cinsea.dao.GroupDao;
-import com.github.thisguy_cinsea.model.Group;
-import com.github.thisguy_cinsea.model.GroupInterface;
 import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
-
-import java.util.Map;
 
 public class GroupService implements GroupDao {
 
     private final DBConnection dbc;
+
+    public GroupService() {
+        this(DBConnection.CHORE_CHART_DB);
+    }
 
     public GroupService(DBConnection dbc) {
         this.dbc = dbc;
@@ -20,7 +20,8 @@ public class GroupService implements GroupDao {
         return dbc;
     }
 
-    public GroupService() {
-        this(DBConnection.CHORE_CHART_DB);
+    @Override
+    public String getTableName() {
+        return "group_tbl";
     }
 }

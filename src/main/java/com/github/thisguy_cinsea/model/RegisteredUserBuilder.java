@@ -11,7 +11,7 @@ public class RegisteredUserBuilder {
     private String role;
     private Boolean isRegisteredDeleted;
 
-    public RegisteredUserBuilder setUserId(String userId) {
+    public RegisteredUserBuilder setId(String userId) {
         this.userId = userId;
         return this;
     }

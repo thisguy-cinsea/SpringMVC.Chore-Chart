@@ -19,4 +19,9 @@ public class NoteService implements NoteDao {
     public DBConnection getDBConnection() {
         return dbc;
     }
+
+    @Override
+    public String getTableName() {
+        return "note_tbl";
+    }
 }

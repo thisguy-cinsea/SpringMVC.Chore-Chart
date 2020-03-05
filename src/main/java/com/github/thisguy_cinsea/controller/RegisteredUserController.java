@@ -19,7 +19,7 @@ public class RegisteredUserController {
 
     @GetMapping("/")
     public ResponseEntity<Map<String, RegisteredUserInterface>> getAllRegisteredUsers(){
-        Map<String, RegisteredUserInterface> registeredUserMap = service.getAllRegisteredUsers();
+        Map<String, RegisteredUserInterface> registeredUserMap = service.getAll();
         if (registeredUserMap.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -29,7 +29,7 @@ public class RegisteredUserController {
     @GetMapping("/{registeredUserId}")
     public ResponseEntity<RegisteredUserInterface> getRegisteredUserById(
             @PathVariable(value = "registeredUserId") String registeredUserId){
-        RegisteredUserInterface registeredUser = service.getRegisteredUserById(registeredUserId);
+        RegisteredUserInterface registeredUser = service.getById(registeredUserId);
         if (registeredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -39,7 +39,7 @@ public class RegisteredUserController {
     @PostMapping("/")
     public ResponseEntity<RegisteredUserInterface> createRegisteredUser(
             @Valid @RequestBody RegisteredUser registeredUser){
-        RegisteredUserInterface serviceRegisteredUser = service.createRegisteredUser(registeredUser);
+        RegisteredUserInterface serviceRegisteredUser = service.create(registeredUser);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -50,7 +50,7 @@ public class RegisteredUserController {
     public ResponseEntity<RegisteredUserInterface> updateRegisteredUser(
             @PathVariable (value = "registeredUserId") String registeredUserId,
             @Valid @RequestBody RegisteredUser registeredUser){
-        RegisteredUserInterface serviceRegisteredUser = service.updateRegisteredUser(registeredUserId, registeredUser);
+        RegisteredUserInterface serviceRegisteredUser = service.update(registeredUserId, registeredUser);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -60,7 +60,7 @@ public class RegisteredUserController {
     @DeleteMapping("/{registeredUserId}")
     public ResponseEntity<RegisteredUserInterface> deleteRegisteredUser(
             @PathVariable (value = "registeredUserId") String registeredUserId){
-        RegisteredUserInterface serviceRegisteredUser = service.deleteRegisteredUser(registeredUserId);
+        RegisteredUserInterface serviceRegisteredUser = service.delete(registeredUserId);
         if (serviceRegisteredUser == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

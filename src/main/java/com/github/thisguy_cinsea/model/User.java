@@ -23,12 +23,12 @@ public class User implements UserInterface{
     }
 
     @Override
-    public String getUserId() {
+    public String getId() {
         return userId;
     }
 
     @Override
-    public void setUserId(String userId) {
+    public void setId(String userId) {
         this.userId = userId;
     }
 
@@ -58,6 +58,11 @@ public class User implements UserInterface{
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Override
+    public String getTableName() {
+        return "user_tbl";
     }
 
     @Override

@@ -14,56 +14,11 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/note")
 
-public class NoteController {
+public class NoteController implements ControllerInterface<NoteInterface, NoteService, Note>{
     private NoteService service = new NoteService();
 
-    @GetMapping("/")
-    public ResponseEntity<Map<String, NoteInterface>> getAllNotes(){
-        Map<String, NoteInterface> noteMap = service.getAllNotes();
-        if (noteMap.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(noteMap, HttpStatus.OK);
-    }
-
-    @GetMapping("/{noteId}")
-    public ResponseEntity<NoteInterface> getNoteById(
-            @PathVariable (value = "noteId") String noteId){
-        NoteInterface note = service.getNoteById(noteId);
-        if (note == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(note, HttpStatus.OK);
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<NoteInterface> createNote(
-            @Valid @RequestBody Note note){
-        NoteInterface serviceNote = service.createNote(note);
-        if (serviceNote == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
-    }
-
-    @PutMapping("/{noteId}")
-    public ResponseEntity<NoteInterface> updateNote(
-            @PathVariable (value = "noteId") String noteId,
-            @Valid @RequestBody Note note){
-        NoteInterface serviceNote = service.updateNote(noteId, note);
-        if (serviceNote == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{noteId}")
-    public ResponseEntity<NoteInterface> deleteNote(
-            @PathVariable (value = "noteId") String noteId){
-        NoteInterface serviceNote = service.deleteNote(noteId);
-        if (serviceNote == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceNote, HttpStatus.OK);
+    @Override
+    public NoteService getService() {
+        return this.service;
     }
 }

@@ -14,56 +14,11 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/group")
 
-public class GroupController {
+public class GroupController implements ControllerInterface<GroupInterface,GroupService, Group> {
     private GroupService service = new GroupService();
 
-    @GetMapping("/")
-    public ResponseEntity<Map<String, GroupInterface>> getAllGroups(){
-        Map<String, GroupInterface> groupMap = service.getAllGroups();
-        if (groupMap.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(groupMap, HttpStatus.OK);
-    }
-
-    @GetMapping("/{groupId}")
-    public ResponseEntity<GroupInterface> getGroupById(
-            @PathVariable(value = "groupId") String groupId){
-        GroupInterface group = service.getGroupById(groupId);
-        if (group == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(group, HttpStatus.OK);
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<GroupInterface> createGroup(
-            @Valid @RequestBody Group group){
-        GroupInterface serviceGroup = service.createGroup(group);
-        if (serviceGroup == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceGroup, HttpStatus.OK);
-    }
-
-    @PutMapping("/{groupId}")
-    public ResponseEntity<GroupInterface> updateGroup(
-            @PathVariable (value = "groupId") String groupId,
-            @Valid @RequestBody Group group){
-        GroupInterface serviceGroup = service.updateGroup(groupId, group);
-        if (serviceGroup == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceGroup, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{groupId}")
-    public ResponseEntity<GroupInterface> deleteGroup(
-            @PathVariable (value = "groupId") String groupId){
-        GroupInterface serviceGroup = service.deleteGroup(groupId);
-        if (serviceGroup == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(serviceGroup, HttpStatus.OK);
+    @Override
+    public GroupService getService() {
+        return this.service;
     }
 }

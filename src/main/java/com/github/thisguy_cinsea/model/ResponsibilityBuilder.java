@@ -6,7 +6,7 @@ public class ResponsibilityBuilder {
     private String groupId;
     private Boolean isDeleted;
 
-    public ResponsibilityBuilder setResponsibilityId(String responsibilityId) {
+    public ResponsibilityBuilder setId(String responsibilityId) {
         this.responsibilityId = responsibilityId;
         return this;
     }

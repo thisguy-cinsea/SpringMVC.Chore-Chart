@@ -2,77 +2,41 @@ package com.github.thisguy_cinsea.dao;
 
 import com.github.thisguy_cinsea.model.Group;
 import com.github.thisguy_cinsea.model.GroupInterface;
-import com.github.thisguy_cinsea.utils.IOConsole;
-import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
-public interface GroupDao {
-    DBConnection getDBConnection();
+public interface GroupDao extends DaoInterface<GroupInterface>{
 
-    default Map<String, GroupInterface> getGroupByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND (`is_deleted` <> 1 OR `is_deleted` IS NULL);";
-        System.out.println(sqlQuery);
-        ResultSet results = getDBConnection().executeQuery(sqlQuery);
-        Map<String, GroupInterface> groupMap = new HashMap<>();
-        try{
-            while (results.next()){
-                String groupId = results.getString("groupId");
-                System.out.println(groupId);
+    default Map<String, GroupInterface> getByStatement(String sqlQuery) {
+        return getByStatement((results) -> {
+            try {
+                String groupId = results.getString("id");
                 Group group = new Group(
                         groupId,
                         results.getString("groupName"),
                         results.getInt("is_Deleted"));
-                group.setGroupId(groupId);
-                groupMap.put(groupId, group);
+                group.setId(groupId);
+                return group;
+            } catch (Exception e) {
+                throw new Error(e);
             }
-        } catch (SQLException e) {
-            new IOConsole(IOConsole.AnsiColor.BLUE).println("No record found");
-//            throw new Error(e);
-        }
-        return groupMap;
+        }, sqlQuery);
     }
 
-    default Map<String, GroupInterface> getAllGroups() {
-        return getGroupByStatement("SELECT * FROM `group_tbl` WHERE 1 = 1");
-    }
-
-    default GroupInterface getGroupById(String groupId) {
-        Map<String, GroupInterface> groupMap = getGroupByStatement("SELECT * FROM `group_tbl`" +
-                "WHERE `groupId` = '" + groupId + "' ");
-        if (groupMap.isEmpty())
-            return null;
-        return groupMap.values().iterator().next();
-    }
-
-    default GroupInterface createGroup(Group group) {
+    default GroupInterface create(GroupInterface group) {
         GroupInterface groupToCreate = new Group(group.getGroupName());
-        String sqlStatement = "INSERT INTO `group_tbl` ( `groupId`, `groupName`) VALUES ('"+
-                groupToCreate.getGroupId() +"', '"+ groupToCreate.getGroupName() +"');";
+        String sqlStatement = "INSERT INTO `" + getTableName() + "` ( `id`, `groupName`) VALUES ('"+
+                groupToCreate.getId() +"', '"+ groupToCreate.getGroupName() +"');";
         getDBConnection().executeStatement(sqlStatement);
         return groupToCreate;
     }
 
-    default GroupInterface updateGroup(String groupId, GroupInterface group) {
-        GroupInterface groupToUpdate = getGroupById(groupId);
-        groupToUpdate.setGroupId(groupId);
+    default GroupInterface update(String groupId, GroupInterface group) {
+        GroupInterface groupToUpdate = getById(groupId);
+        groupToUpdate.setId(groupId);
         groupToUpdate.setGroupName(group.getGroupName());
-        String sqlStatement = "UPDATE `group_tbl` SET `groupName` = '"+ groupToUpdate.getGroupName()
-                +"' WHERE `groupId` = '"+ groupToUpdate.getGroupId() +"';";
+        String sqlStatement = "UPDATE `" + getTableName() + "` SET `groupName` = '"+ groupToUpdate.getGroupName()
+                +"' WHERE `id` = '"+ groupToUpdate.getId() +"';";
         getDBConnection().executeStatement(sqlStatement);
         return groupToUpdate;
-    }
-
-    default GroupInterface deleteGroup(String groupId) {
-        GroupInterface groupToDelete = getGroupById(groupId);
-        groupToDelete.setGroupId(groupId);
-        groupToDelete.setDeleted(true);
-        String sqlStatement = "UPDATE `group_tbl` SET `is_deleted` = 1 WHERE `groupId` = '"
-                + groupToDelete.getGroupId() +"';";
-        getDBConnection().executeStatement(sqlStatement);
-        return groupToDelete;
     }
 }

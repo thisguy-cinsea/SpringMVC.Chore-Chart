@@ -25,12 +25,12 @@ public class Group implements GroupInterface {
     }
 
     @Override
-    public String getGroupId() {
+    public String getId() {
         return groupId;
     }
 
     @Override
-    public void setGroupId(String groupId) {
+    public void setId(String groupId) {
         this.groupId = groupId;
     }
 
@@ -52,6 +52,11 @@ public class Group implements GroupInterface {
     @Override
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Override
+    public String getTableName() {
+        return "group_tbl";
     }
 
     @Override

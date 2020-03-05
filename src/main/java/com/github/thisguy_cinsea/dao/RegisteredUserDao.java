@@ -12,65 +12,58 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public interface RegisteredUserDao {
-    DBConnection getDBConnection();
+public interface RegisteredUserDao extends DaoInterface<RegisteredUserInterface>{
 
-    default Map<String, RegisteredUserInterface> getRegisteredUserByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND (`is_registration_deleted` <> 1 OR `is_registration_deleted` IS NULL);";
-        ResultSet results = getDBConnection().executeQuery(sqlQuery);
-        Map<String, RegisteredUserInterface> registeredUserMap = new HashMap<>();
-        try{
-            while (results.next()){
-                String registeredUserId = results.getString("userId");
+    default Map<String, RegisteredUserInterface> getByStatement(String sqlQuery) {
+        sqlQuery = sqlQuery + " AND (`is_registration_deleted` <> 1 OR `is_registration_deleted` IS NULL)";
+        return getByStatement((results) ->{
+            try{
+                String registeredUserId = results.getString("id");
                 RegisteredUser registeredUser = new RegisteredUserBuilder()
-                        .setUserId(registeredUserId)
+                        .setId(registeredUserId)
                         .setFirstName(results.getString("firstName"))
                         .setGroupId(results.getString("groupId"))
-//                        .setIsDeleted(results.getInt("is_deleted"))
                         .setLastName(results.getString("lastName"))
                         .setEmail(results.getString("email"))
                         .setRole(results.getString("role"))
-//                        .setIsRegisteredDeleted(results.getInt("is_registration_deleted"))
                         .build();
-                registeredUser.setUserId(registeredUserId);
-                registeredUserMap.put(registeredUserId, registeredUser);
+                registeredUser.setId(registeredUserId);
+                return registeredUser;
+            } catch (SQLException e) {
+                throw new Error(e);
             }
-        } catch (SQLException e) {
-            new IOConsole(IOConsole.AnsiColor.BLUE).println("No record found");
-//            throw new Error(e);
-        }
-        return registeredUserMap;
+        }, sqlQuery);
     }
 
     default String sqlSelectQuery() {
-        return "SELECT `user_tbl`.`userId`, `user_tbl`.`firstName`, `user_tbl`.`groupId`, `user_tbl`.`is_deleted` AS `is_user_deleted`, " +
+        return "SELECT `user_tbl`.`id`, `user_tbl`.`firstName`, `user_tbl`.`groupId`, `user_tbl`.`is_deleted` AS `is_user_deleted`, " +
                 "`reg_user_tbl`.`lastName`, `reg_user_tbl`.`email`, `reg_user_tbl`.`role`, `reg_user_tbl`.`is_registration_deleted` " +
                 "FROM `reg_user_tbl` " +
-                "JOIN `user_tbl` ON `reg_user_tbl`.`userId` = `user_tbl`.`userId` ";
+                "JOIN `user_tbl` ON `reg_user_tbl`.`id` = `user_tbl`.`id` ";
     }
 
-    default Map<String, RegisteredUserInterface> getAllRegisteredUsers() {
+    default Map<String, RegisteredUserInterface> getAll() {
         String sqlQuery =  sqlSelectQuery() + "WHERE 1=1";
-        return getRegisteredUserByStatement(sqlQuery);
+        return getByStatement(sqlQuery);
     }
 
-    default RegisteredUserInterface getRegisteredUserById(String registeredUserId) {
-        String sqlQuery = sqlSelectQuery() +  "WHERE `user_tbl`.`userId` = '" + registeredUserId + "'";
-        Map<String, RegisteredUserInterface> registeredUserMap = getRegisteredUserByStatement(sqlQuery);
-        if (registeredUserMap.isEmpty())
-            return null;
-        return registeredUserMap.values().iterator().next();
+//    default RegisteredUserInterface getRegisteredUserById(String registeredUserId) {
+//        String sqlQuery = sqlSelectQuery() +  "WHERE `user_tbl`.`userId` = '" + registeredUserId + "'";
+//        Map<String, RegisteredUserInterface> registeredUserMap = getRegisteredUserByStatement(sqlQuery);
+//        if (registeredUserMap.isEmpty())
+//            return null;
+//        return registeredUserMap.values().iterator().next();
+//
+//    }
 
-    }
-
-    default RegisteredUserInterface createRegisteredUser(RegisteredUser registeredUser) {
+    default RegisteredUserInterface create(RegisteredUserInterface registeredUser) {
         boolean newGroupFlag = false;
         if (StringUtils.isBlank(registeredUser.getGroupId())){
             newGroupFlag = true;
             registeredUser.setGroupId(UUID.randomUUID().toString());
         }
         RegisteredUserInterface registeredUserToCreate = new RegisteredUserBuilder()
-                .setUserId(registeredUser.getUserId())
+                .setId(registeredUser.getId())
                 .setGroupId(registeredUser.getGroupId().isBlank() ? UUID.randomUUID().toString() : registeredUser.getGroupId())
                 .setFirstName(registeredUser.getFirstName())
                 .setLastName(registeredUser.getLastName())
@@ -78,21 +71,20 @@ public interface RegisteredUserDao {
                 .setPassword(hashPassword(registeredUser.getPassword()))
                 .setRole("USER")
                 .build();
-        System.out.println(registeredUserToCreate);
 
         String sqlStatement = "";
         if (newGroupFlag){
-            sqlStatement = "INSERT INTO `group_tbl` (`groupId`, `groupName`) VALUES ('" +
+            sqlStatement = "INSERT INTO `group_tbl` (`id`, `groupName`) VALUES ('" +
                     registeredUserToCreate.getGroupId() + "', '" +
                     registeredUser.getLastName() + " Household ');";
         }
         sqlStatement = sqlStatement +
-                "INSERT INTO `user_tbl` (`userId`, `firstName`, `groupId`) VALUES ('" +
-                        registeredUserToCreate.getUserId() +"', '" +
+                "INSERT INTO `user_tbl` (`id`, `firstName`, `groupId`) VALUES ('" +
+                        registeredUserToCreate.getId() +"', '" +
                         registeredUserToCreate.getFirstName() +"', '" +
                         registeredUserToCreate.getGroupId() +"');" +
-                "INSERT INTO `reg_user_tbl` (`userId`, `lastName`, `PASSWORD`, `email`, `role`) VALUES ('" +
-                        registeredUserToCreate.getUserId() +"', '" +
+                "INSERT INTO `reg_user_tbl` (`id`, `lastName`, `PASSWORD`, `email`, `role`) VALUES ('" +
+                        registeredUserToCreate.getId() +"', '" +
                         registeredUserToCreate.getLastName() + "', '" +
                         registeredUserToCreate.getPassword() + "', '" +
                         registeredUserToCreate.getEmail() + "', '" +
@@ -108,20 +100,20 @@ public interface RegisteredUserDao {
        return new BCryptPasswordEncoder().encode(plainTextPassword);
     }
 
-    default RegisteredUserInterface updateRegisteredUser(String registeredUserId, RegisteredUser registeredUser) {
-        RegisteredUserInterface registeredUserToUpdate = getRegisteredUserById(registeredUserId);
-        registeredUserToUpdate.setUserId(registeredUserId);
+    default RegisteredUserInterface update(String registeredUserId, RegisteredUserInterface registeredUser) {
+        RegisteredUserInterface registeredUserToUpdate = getById(registeredUserId);
+        registeredUserToUpdate.setId(registeredUserId);
         registeredUserToUpdate.setFirstName(registeredUser.getFirstName());
         registeredUserToUpdate.setLastName(registeredUser.getLastName());
         registeredUserToUpdate.setEmail(registeredUser.getEmail());
         registeredUserToUpdate.setPassword(hashPassword(registeredUser.getPassword()));
-        String sqlStatement = "UPDATE `user_tbl` SET `firstName` = '"+ registeredUserToUpdate.getFirstName()
-                +"' WHERE `userId` = '"+ registeredUserToUpdate.getUserId() +"';";
-        sqlStatement = sqlStatement + "UPDATE `reg_user_tbl` SET `lastName` = '" +
+        String sqlStatement = "UPDATE `" + getTableName() + "` SET `firstName` = '"+ registeredUserToUpdate.getFirstName()
+                +"' WHERE `id` = '"+ registeredUserToUpdate.getId() +"';";
+        sqlStatement = sqlStatement + "UPDATE `" + getTableName() + "` SET `lastName` = '" +
                 registeredUserToUpdate.getLastName() + "', `email` = '" +
                 registeredUserToUpdate.getEmail() + "', `password` = '" +
                 registeredUserToUpdate.getPassword() +"' WHERE `userId` = '"+
-                registeredUserToUpdate.getUserId() +"';";
+                registeredUserToUpdate.getId() +"';";
         String[] statements = sqlStatement.split(";");
         for (String statement : statements) {
             getDBConnection().executeStatement(statement);
@@ -129,13 +121,13 @@ public interface RegisteredUserDao {
         return registeredUserToUpdate;
     }
 
-    default RegisteredUserInterface deleteRegisteredUser(String registeredUserId) {
-        RegisteredUserInterface registeredUserToDelete = getRegisteredUserById(registeredUserId);
-        registeredUserToDelete.setUserId(registeredUserId);
-        registeredUserToDelete.setDeleted(true);
-        String sqlStatement = "UPDATE `reg_user_tbl` SET `is_registration_deleted` = 1 WHERE `userId` = '"
-                + registeredUserToDelete.getUserId() +"';";
-        getDBConnection().executeStatement(sqlStatement);
-        return registeredUserToDelete;
-    }
+//    default RegisteredUserInterface deleteRegisteredUser(String registeredUserId) {
+//        RegisteredUserInterface registeredUserToDelete = getRegisteredUserById(registeredUserId);
+//        registeredUserToDelete.setId(registeredUserId);
+//        registeredUserToDelete.setDeleted(true);
+//        String sqlStatement = "UPDATE `reg_user_tbl` SET `is_registration_deleted` = 1 WHERE `userId` = '"
+//                + registeredUserToDelete.getId() +"';";
+//        getDBConnection().executeStatement(sqlStatement);
+//        return registeredUserToDelete;
+//    }
 }

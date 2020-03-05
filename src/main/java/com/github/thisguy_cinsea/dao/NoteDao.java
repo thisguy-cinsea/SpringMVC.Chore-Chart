@@ -2,79 +2,41 @@ package com.github.thisguy_cinsea.dao;
 
 import com.github.thisguy_cinsea.model.Note;
 import com.github.thisguy_cinsea.model.NoteInterface;
-import com.github.thisguy_cinsea.utils.IOConsole;
-import com.github.thisguy_cinsea.utils.jdbc.DBConnection;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
-public interface NoteDao {
-    DBConnection getDBConnection();
+public interface NoteDao extends DaoInterface<NoteInterface>{
 
-    default Map<String, NoteInterface> getNoteByStatement(String sqlQuery) {
-        sqlQuery = sqlQuery + " AND (`is_deleted` <> 1 OR `is_deleted` IS NULL);";
-        ResultSet results = getDBConnection().executeQuery(sqlQuery);
-        Map<String, NoteInterface> noteMap = new HashMap<>();
-        try{
-            while (results.next()){
-                String noteId = results.getString("noteId");
-                System.out.println(noteId);
+    default Map<String, NoteInterface> getByStatement(String sqlQuery) {
+        return getByStatement((results) -> {
+            try {
+                String noteId = results.getString("id");
                 Note note = new Note(
                         noteId,
                         results.getString("message"),
                         results.getInt("is_Deleted"));
-                note.setNoteId(noteId);
-                noteMap.put(noteId, note);
+                note.setId(noteId);
+                return note;
+            } catch(Exception e) {
+                throw new Error(e);
             }
-        } catch (SQLException e) {
-            new IOConsole(IOConsole.AnsiColor.BLUE).println("No record found");
-//            throw new Error(e);
-        }
-        return noteMap;
+        }, sqlQuery);
     }
 
-    default Map<String, NoteInterface> getAllNotes() {
-        return getNoteByStatement("SELECT * FROM `note_tbl` WHERE 1 = 1");
-    }
-
-    
-    default NoteInterface getNoteById(String noteId) {
-        Map<String, NoteInterface> noteMap = getNoteByStatement("SELECT * FROM `note_tbl`" +
-                "WHERE `noteId` = '" + noteId + "'");
-        if (noteMap.isEmpty())
-            return null;
-        return noteMap.values().iterator().next();
-    }
-
-    default NoteInterface createNote(Note note) {
+    default NoteInterface create(NoteInterface note) {
         NoteInterface noteToCreate = new Note(note.getMessage());
-        String sqlStatement = "INSERT INTO `note_tbl` ( `noteId`, `message`) VALUES ('"+
-                noteToCreate.getNoteId() +"', '"+ noteToCreate.getMessage() +"');";
+        String sqlStatement = "INSERT INTO `"+ getTableName() +"` ( `id`, `message`) VALUES ('"+
+                noteToCreate.getId() +"', '"+ noteToCreate.getMessage() +"');";
         getDBConnection().executeStatement(sqlStatement);
         return noteToCreate;
     }
 
-    
-    default NoteInterface updateNote(String noteId, NoteInterface note) {
-        NoteInterface noteToUpdate = getNoteById(noteId);
-        noteToUpdate.setNoteId(noteId);
+    default NoteInterface update(String noteId, NoteInterface note) {
+        NoteInterface noteToUpdate = getById(noteId);
+        noteToUpdate.setId(noteId);
         noteToUpdate.setMessage(note.getMessage());
-        String sqlStatement = "UPDATE `note_tbl` SET `message` = '"+ noteToUpdate.getMessage()
-                +"' WHERE `noteId` = '"+ noteToUpdate.getNoteId() +"';";
+        String sqlStatement = "UPDATE `" + getTableName() + "` SET `message` = '"+ noteToUpdate.getMessage()
+                +"' WHERE `id` = '"+ noteToUpdate.getId() +"';";
         getDBConnection().executeStatement(sqlStatement);
         return noteToUpdate;
-    }
-
-    
-    default NoteInterface deleteNote(String noteId) {
-        NoteInterface noteToDelete = getNoteById(noteId);
-        noteToDelete.setNoteId(noteId);
-        noteToDelete.setDeleted(true);
-        String sqlStatement = "UPDATE `note_tbl` SET `is_deleted` = 1 WHERE `noteId` = '"
-                + noteToDelete.getNoteId() +"';";
-        getDBConnection().executeStatement(sqlStatement);
-        return noteToDelete;
     }
 }

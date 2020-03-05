@@ -18,4 +18,9 @@ public class ResponsibilityService implements ResponsibilityDao {
     public ResponsibilityService() {
         this(DBConnection.CHORE_CHART_DB);
     }
+
+    @Override
+    public String getTableName() {
+        return "responsibility_tbl";
+    }
 }
