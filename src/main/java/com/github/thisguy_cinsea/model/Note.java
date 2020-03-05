@@ -25,12 +25,12 @@ public class Note implements NoteInterface {
     }
 
     @Override
-    public String getNoteId() {
+    public String getId() {
         return noteId;
     }
 
     @Override
-    public void setNoteId(String noteId) {
+    public void setId(String noteId) {
         this.noteId = noteId;
     }
 
@@ -52,6 +52,11 @@ public class Note implements NoteInterface {
     @Override
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Override
+    public String getTableName() {
+        return "note_tbl";
     }
 
     @Override

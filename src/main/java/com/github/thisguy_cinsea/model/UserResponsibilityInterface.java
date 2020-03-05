@@ -2,8 +2,8 @@ package com.github.thisguy_cinsea.model;
 
 import java.util.Date;
 
-public interface UserResponsibilityInterface {
-    String getUserResponsibilityId();
+public interface UserResponsibilityInterface extends EntityInterface{
+    String getId();
     String getUserId();
     String getResponsibilityId();
     String getCreationId();
@@ -12,9 +12,8 @@ public interface UserResponsibilityInterface {
     Date getDueDate();
     Date getCompletionDate();
     String getNoteId();
-    Boolean getDeleted();
 
-    void setUserResponsibilityId(String userResponsibilityId);
+    void setId(String userResponsibilityId);
     void setUserId(String userId);
     void setResponsibilityId(String responsibilityId);
     void setCreationId(String creationId);
@@ -23,5 +22,4 @@ public interface UserResponsibilityInterface {
     void setDueDate(Date dueDate);
     void setCompletionDate(Date completionDate);
     void setNoteId(String noteId);
-    void setDeleted(Boolean deleted);
 }

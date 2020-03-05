@@ -34,12 +34,12 @@ public class UserResponsibility implements UserResponsibilityInterface {
     }
 
     @Override
-    public String getUserResponsibilityId() {
+    public String getId() {
         return userResponsibilityId;
     }
 
     @Override
-    public void setUserResponsibilityId(String userResponsibilityId) {
+    public void setId(String userResponsibilityId) {
         this.userResponsibilityId = userResponsibilityId;
     }
 
@@ -131,6 +131,11 @@ public class UserResponsibility implements UserResponsibilityInterface {
     @Override
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Override
+    public String getTableName() {
+        return "user_responsibility_tbl";
     }
 
     @Override

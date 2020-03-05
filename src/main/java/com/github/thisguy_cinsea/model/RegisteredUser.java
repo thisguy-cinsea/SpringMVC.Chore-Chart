@@ -1,12 +1,9 @@
 package com.github.thisguy_cinsea.model;
 
 public class RegisteredUser extends User implements RegisteredUserInterface {
-//    private String userId;
-//    private String firstName;
     private String lastName;
     private String email;
     private String password;
-//    private String groupId;
     private String role;
     private Boolean isRegisteredDeleted;
 
@@ -71,6 +68,9 @@ public class RegisteredUser extends User implements RegisteredUserInterface {
         isRegisteredDeleted = registeredDeleted;
     }
 
+    public String getTableName() {
+        return "reg_user_tbl";
+    }
     @Override
     public String toString() {
         return "RegisteredUser{" +

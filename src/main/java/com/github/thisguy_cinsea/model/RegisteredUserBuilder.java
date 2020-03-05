@@ -11,7 +11,7 @@ public class RegisteredUserBuilder {
     private String role;
     private Boolean isRegisteredDeleted;
 
-    public RegisteredUserBuilder setUserId(String userId) {
+    public RegisteredUserBuilder setId(String userId) {
         this.userId = userId;
         return this;
     }
@@ -28,6 +28,11 @@ public class RegisteredUserBuilder {
 
     public RegisteredUserBuilder setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+        return this;
+    }
+
+    public RegisteredUserBuilder setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted == 1;
         return this;
     }
 
@@ -53,6 +58,11 @@ public class RegisteredUserBuilder {
 
     public RegisteredUserBuilder setIsRegisteredDeleted(Boolean isRegisteredDeleted) {
         this.isRegisteredDeleted = isRegisteredDeleted;
+        return this;
+    }
+
+    public RegisteredUserBuilder setIsRegisteredDeleted(int isRegisteredDeleted) {
+        this.isRegisteredDeleted = isRegisteredDeleted == 1;
         return this;
     }
 

@@ -107,7 +107,7 @@ public enum DBConnection implements DBConnectionInterface {
                     .prepareStatement(sqlQuery)
                     .executeQuery();
             String info = "Successfully executed statement \n\t`%s`.";
-            console.println(info, sqlQuery);
+            new IOConsole(IOConsole.AnsiColor.YELLOW).println(info, sqlQuery);
             return result;
         } catch (SQLException e) {
             throw new Error(e);

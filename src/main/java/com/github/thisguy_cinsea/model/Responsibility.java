@@ -16,16 +16,18 @@ public class Responsibility implements ResponsibilityInterface {
         this.isDeleted = isDeleted;
     }
 
+    public Responsibility(String responsibilityId, String responsibilityName, String groupId, int isDeleted) {
+        this(responsibilityId, responsibilityName, groupId, isDeleted == 1);
+    }
+
     public Responsibility() {
     }
 
-    @Override
-    public String getResponsibilityId() {
+    public String getId() {
         return responsibilityId;
     }
 
-    @Override
-    public void setResponsibilityId(String responsibilityId) {
+    public void setId(String responsibilityId) {
         this.responsibilityId = responsibilityId;
     }
 
@@ -56,6 +58,10 @@ public class Responsibility implements ResponsibilityInterface {
     @Override
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getTableName() {
+        return "responsibility_tbl";
     }
 
     @Override
